@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: final-app-deployment
+  labels:
+    app: final-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: final-app
+  template:
+    metadata:
+      labels:
+        app: final-app
+    spec:
+containers:
+  - name: final-app
+    image: amirchapi/final-app:v1
+    ports:
+      - containerPort: 8000

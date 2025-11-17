@@ -1,0 +1,19 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: final-app-alerts
+  namespace: monitoring
+  labels:
+    release: monitoring-stack
+spec:
+  groups:
+    - name: final-app.rules
+      rules:
+        - alert: FinalAppFrequentRestarts
+          expr: increase(kube_pod_container_status_restarts_total{namespace="default", pod=~"final-app-deployment-.*"}[5m]) > 1
+          for: 0m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Python application is restarting too often"
+            description: "Pod {{ $labels.pod }} restarted more than once in the last 5 minutes in namespace {{ $labels.namespace }}."

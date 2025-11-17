@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: final-app
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: "https://github.com/AmirChapi/final-devops-course-project.git"
+    targetRevision: HEAD
+    path: .
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

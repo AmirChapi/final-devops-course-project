@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
         - name: final-app
-          image: amirchapi/final-app:latest
+          image: amirchapi/final-app:v1
           ports:
             - containerPort: 5000

@@ -13,7 +13,6 @@ spec:
         app: final-app
     spec:
       containers:
-        - name: final-app
+        - name: final-app-container
           image: amirchapi/final-app:v1
-          ports:
-            - containerPort: 5000
+          command: [ "sh", "-c", "exit 1" ]

@@ -15,4 +15,13 @@ spec:
       containers:
         - name: final-app-container
           image: amirchapi/final-app:v1
-          command: [ "sh", "-c", "exit 1" ]
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5000
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "256Mi"

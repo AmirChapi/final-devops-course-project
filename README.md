@@ -1,5 +1,4 @@
-# QuakeWatch (Phase 1)
-
+# QuakeWatch (Phase 1) - Helm Docs
 Simple Python Flask app returning "Hello, World!".
 
 ## Run locally (no Docker)

@@ -29,7 +29,7 @@ config:
   LOG_LEVEL: info
 
 secret:
-  APP_SECRET_KEY: "change-me-super-secret"
+  APP_SECRET_KEY: "dummy-secret-for-lint"
 
 probes:
   path: /

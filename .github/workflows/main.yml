@@ -1,0 +1,40 @@
+name: Publish Helm Chart to Artifactory
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - "helm/final-app/**"
+      - ".github/workflows/main.yml"
+
+workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Helm
+        uses: azure/setup-helm@v4
+
+      - name: Lint & Package chart
+        run: |
+          helm lint helm/final-app
+          helm package helm/final-app --destination dist
+
+      - name: Generate index.yaml
+        run: |
+          helm repo index dist --url "${{ secrets.ARTIFACTORY_HELM_REPO_URL }}"
+
+      - name: Upload chart + index to Artifactory
+        env:
+          ART_USER: ${{ secrets.ARTIFACTORY_USER }}
+          ART_PASS: ${{ secrets.ARTIFACTORY_PASS }}
+          REPO_URL: ${{ secrets.ARTIFACTORY_HELM_REPO_URL }}
+        run: |
+          echo "Uploading to: $REPO_URL"
+          curl -u "$ART_USER:$ART_PASS" -T dist/*.tgz "$REPO_URL/"
+          curl -u "$ART_USER:$ART_PASS" -T dist/index.yaml "$REPO_URL/index.yaml"

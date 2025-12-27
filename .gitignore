@@ -1,0 +1,9 @@
+# Secrets / keys
+*.pem
+*.key
+
+# Helm packages
+*.tgz
+
+# Python venv
+.venv/

@@ -6,8 +6,7 @@ on:
     paths:
       - "helm/final-app/**"
       - ".github/workflows/main.yml"
-
-workflow_dispatch:
+  workflow_dispatch:
 
 jobs:
   publish:

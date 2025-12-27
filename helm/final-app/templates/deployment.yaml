@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: final-app-deployment
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "final-app.labels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "final-app.labels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: final-app-container
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.service.targetPort }}
+
+          envFrom:
+            - configMapRef:
+                name: final-app-config
+            - secretRef:
+                name: final-app-secret
+
+          resources:
+            requests:
+              cpu: {{ .Values.resources.requests.cpu | quote }}
+              memory: {{ .Values.resources.requests.memory | quote }}
+            limits:
+              cpu: {{ .Values.resources.limits.cpu | quote }}
+              memory: {{ .Values.resources.limits.memory | quote }}
+
+          livenessProbe:
+            httpGet:
+              path: {{ .Values.probes.path | quote }}
+              port: {{ .Values.probes.port }}
+            initialDelaySeconds: {{ .Values.probes.livenessInitialDelaySeconds }}
+            periodSeconds: 10
+            timeoutSeconds: 2
+            failureThreshold: 3
+
+          readinessProbe:
+            httpGet:
+              path: {{ .Values.probes.path | quote }}
+              port: {{ .Values.probes.port }}
+            initialDelaySeconds: {{ .Values.probes.readinessInitialDelaySeconds }}
+            periodSeconds: 5
+            timeoutSeconds: 2
+            failureThreshold: 3

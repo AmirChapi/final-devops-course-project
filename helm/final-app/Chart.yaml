@@ -1,0 +1,6 @@
+apiVersion: v2
+name: final-app
+description: Final App Helm chart (Deployment, Service, HPA, ConfigMap, Secret, CronJob, Probes)
+type: application
+version: 0.1.0
+appVersion: "v1"

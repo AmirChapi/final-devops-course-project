@@ -1,4 +1,4 @@
-# QuakeWatch (Phase 1)
+# QuakeWatch (Phase 1) - Conflict Demo
 
 Simple Python Flask app returning "Hello, World!".
 

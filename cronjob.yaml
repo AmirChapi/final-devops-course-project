@@ -1,0 +1,18 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: final-app-cron
+spec:
+  schedule: "*/5 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: curl
+              image: curlimages/curl:8.6.0
+              args:
+                - /bin/sh
+                - -c
+                - "curl -fsS http://final-app-service:5000/ >/dev/null"
+          restartPolicy: OnFailure
